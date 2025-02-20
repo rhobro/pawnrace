@@ -7,7 +7,9 @@ edition = "2021"
 crate-type = ["cdylib"]
 
 [dependencies]
+anyhow = "1.0.96"
 jni = "0.21"
+thiserror = "2.0.11"
 
 [profile.release]
 lto = true
