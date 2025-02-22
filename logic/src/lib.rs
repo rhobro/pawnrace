@@ -1,12 +1,11 @@
-pub mod board;
 pub mod agent;
-use std::{env, str::FromStr};
-
+pub mod board;
 use board::{test, Colour};
 use jni::{
     objects::{JClass, JObject, JString, JValue},
     JNIEnv,
 };
+use std::{env, str::FromStr};
 
 #[no_mangle]
 pub extern "system" fn Java_pawnrace_PawnRace_play<'a>(
