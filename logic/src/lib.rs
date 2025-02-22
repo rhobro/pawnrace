@@ -1,3 +1,8 @@
+pub mod board;
+pub mod agent;
+use std::{env, str::FromStr};
+
+use board::{test, Colour};
 use jni::{
     objects::{JClass, JObject, JString, JValue},
     JNIEnv,
@@ -12,14 +17,16 @@ pub extern "system" fn Java_pawnrace_PawnRace_play<'a>(
     input: JObject<'a>,
 ) {
     // process args
-    let colour: String = env
-        .get_string(&colour)
-        .expect("Couldn't read JNI colour input")
-        .into();
+    let colour = {
+        let raw: String = env
+            .get_string(&colour)
+            .expect("Couldn't read JNI colour input")
+            .into();
+        Colour::from_str(&raw).unwrap()
+    };
     let mut io = IO::new(input, output, env);
 
-    let test = io.recv();
-    io.send(test);
+    test(io);
 }
 
 struct IO<'a> {
@@ -41,7 +48,6 @@ impl<'a> IO<'a> {
 
         // convert string
         let s: String = self.env.get_string(&js).unwrap().into();
-
         s
     }
 
